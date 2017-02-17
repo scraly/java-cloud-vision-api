@@ -7,9 +7,6 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -39,8 +36,10 @@ import com.google.api.services.vision.v1.model.AnnotateImageResponse;
 import com.google.api.services.vision.v1.model.BatchAnnotateImagesRequest;
 import com.google.api.services.vision.v1.model.BatchAnnotateImagesResponse;
 import com.google.api.services.vision.v1.model.EntityAnnotation;
+import com.google.api.services.vision.v1.model.FaceAnnotation;
 import com.google.api.services.vision.v1.model.Feature;
 import com.google.api.services.vision.v1.model.Image;
+import com.google.api.services.vision.v1.model.ImageSource;
 import com.google.common.collect.ImmutableList;
 
 /**
@@ -129,12 +128,15 @@ public class GoogleTest {
 				.setApplicationName("CloudVisionTest")
 				.build();
 
-		// The path to the image file to annotate
-		String fileName = "images/demo-image.jpg";
+		// In local - The path to the image file to annotate
+		//		String fileName = "/home/toto/tmp/selfie.jpeg";
 
 		// Reads the image file into memory
-		Path path = Paths.get(fileName);
-		byte[] data = Files.readAllBytes(path);
+		//		Path path = Paths.get(fileName);
+		//		byte[] data = Files.readAllBytes(path);
+
+		//Google Cloud Storage - images are in your gcs bucket
+		String gcsPath = "gs://safescreen/devfesttoulouse.jpg";
 
 		//		AnnotateImageRequest request = new AnnotateImageRequest()
 		//				.setImage(new Image().encodeContent(data))
@@ -155,7 +157,8 @@ public class GoogleTest {
 				.setMaxResults(MAX_LABELS));
 
 		AnnotateImageRequest request = new AnnotateImageRequest()
-				.setImage(new Image().encodeContent(data))
+				//				.setImage(new Image().encodeContent(data))
+				.setImage(img)
 				.setFeatures(features);
 
 		Vision.Images.Annotate annotate =

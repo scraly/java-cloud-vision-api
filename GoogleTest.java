@@ -157,6 +157,12 @@ public class GoogleTest {
 		features.add(new Feature()
 				.setType("FACE_DETECTION")
 				.setMaxResults(MAX_FACES));
+		features.add(new Feature()
+				.setType("LANDMARK_DETECTION"));
+		features.add(new Feature()
+				.setType("LOGO_DETECTION"));
+		features.add(new Feature()
+				.setType("IMAGE_PROPERTIES"));
 
 		AnnotateImageRequest request = new AnnotateImageRequest()
 				//				.setImage(new Image().encodeContent(data))
@@ -212,6 +218,34 @@ public class GoogleTest {
 						annotation.getSurpriseLikelihood(),
 						annotation.getBoundingPoly());
 				System.out.println("\n");
+			}
+		}
+
+		if(response.getLandmarkAnnotations() != null) {
+			System.out.println("- LANDMARK DETECTION -");
+			for (EntityAnnotation annotation : response.getLandmarkAnnotations()) {
+				LocationInfo info = annotation.getLocations().listIterator().next();
+				System.out.printf("Landmark: %s\n %s\n", annotation.getDescription(), info.getLatLng());
+				System.out.println("\n");
+			}
+		}
+
+		if(response.getLogoAnnotations() != null) {
+			System.out.println("- LOGO DETECTION -");
+			for(EntityAnnotation annotation : response.getLogoAnnotations()) {
+				System.out.println(annotation.toString());
+			}
+		}
+
+		if(response.getImagePropertiesAnnotation() != null) {
+			System.out.println("- IMAGE PROPERTIES -");
+			DominantColorsAnnotation colors = response.getImagePropertiesAnnotation().getDominantColors();
+			for (ColorInfo color : colors.getColors()) {
+				System.out.printf("fraction: %f\nr: %f, g: %f, b: %f\n",
+						color.getPixelFraction(),
+						color.getColor().getRed(),
+						color.getColor().getGreen(),
+						color.getColor().getBlue());
 			}
 		}
 

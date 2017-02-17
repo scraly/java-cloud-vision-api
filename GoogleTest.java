@@ -136,7 +136,7 @@ public class GoogleTest {
 		//		byte[] data = Files.readAllBytes(path);
 
 		//Google Cloud Storage - images are in your gcs bucket
-		String gcsPath = "gs://safescreen/devfesttoulouse.jpg";
+		String gcsPath = "gs://toto/devfesttoulouse.jpg";
 
 		//		AnnotateImageRequest request = new AnnotateImageRequest()
 		//				.setImage(new Image().encodeContent(data))

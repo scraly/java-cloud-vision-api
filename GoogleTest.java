@@ -136,14 +136,27 @@ public class GoogleTest {
 		Path path = Paths.get(fileName);
 		byte[] data = Files.readAllBytes(path);
 
-		System.out.println("- LABEL DETECTION -");
+		//		AnnotateImageRequest request = new AnnotateImageRequest()
+		//				.setImage(new Image().encodeContent(data))
+		//				.setFeatures(ImmutableList.of(
+		//						new Feature()
+		//						.setType("LABEL_DETECTION")
+		//						.setMaxResults(MAX_LABELS)));
+
+		ArrayList<Feature> features = new ArrayList<Feature>();
+		features.add(new Feature()
+				.setType("LABEL_DETECTION")
+				.setMaxResults(MAX_LABELS));
+		features.add(new Feature()
+				.setType("SAFE_SEARCH_DETECTION")
+				.setMaxResults(MAX_LABELS));
+		features.add(new Feature()
+				.setType("TEXT_DETECTION")
+				.setMaxResults(MAX_LABELS));
 
 		AnnotateImageRequest request = new AnnotateImageRequest()
 				.setImage(new Image().encodeContent(data))
-				.setFeatures(ImmutableList.of(
-						new Feature()
-						.setType("LABEL_DETECTION")
-						.setMaxResults(MAX_LABELS)));
+				.setFeatures(features);
 
 		Vision.Images.Annotate annotate =
 				vision.images()
@@ -161,58 +174,17 @@ public class GoogleTest {
 							: "Unknown error getting image annotations");
 		}
 
+		System.out.println("- LABEL DETECTION -");
 		for(EntityAnnotation annotation : response.getLabelAnnotations()) {
 			System.out.println(annotation.toString());
 		}
 
 		System.out.println("- SAFE SEARCH DETECTION -");
+		System.out.println(response.getSafeSearchAnnotation().toString());
 
-		AnnotateImageRequest requestSafeSearch = new AnnotateImageRequest()
-				.setImage(new Image().encodeContent(data))
-				.setFeatures(ImmutableList.of(
-						new Feature()
-						.setType("SAFE_SEARCH_DETECTION")
-						.setMaxResults(MAX_LABELS)));
-
-		Vision.Images.Annotate annotateSafeSearch =
-				vision.images()
-				.annotate(new BatchAnnotateImagesRequest().setRequests(ImmutableList.of(requestSafeSearch)));
-		// Due to a bug: requests to Vision API containing large images fail when GZipped.
-		annotateSafeSearch.setDisableGZipContent(true);
-
-		BatchAnnotateImagesResponse batchResponseSafeSearch = annotateSafeSearch.execute();
-		assert batchResponseSafeSearch.getResponses().size() == 1;
-		AnnotateImageResponse responseSafeSearch = batchResponseSafeSearch.getResponses().get(0);
-		if (responseSafeSearch.getSafeSearchAnnotation() == null) {
-			throw new IOException(
-					responseSafeSearch.getError() != null
-					? responseSafeSearch.getError().getMessage()
-							: "Unknown error getting image annotations");
-		}
-
-		System.out.println(responseSafeSearch.getSafeSearchAnnotation().toString());
-
-		
 		System.out.println("- TEXT DETECTION -");
-
-		AnnotateImageRequest requestText = new AnnotateImageRequest()
-				.setImage(new Image().encodeContent(data))
-				.setFeatures(ImmutableList.of(
-						new Feature()
-						.setType("TEXT_DETECTION")
-						.setMaxResults(MAX_LABELS)));
-
-		Vision.Images.Annotate annotateText =
-				vision.images()
-				.annotate(new BatchAnnotateImagesRequest().setRequests(ImmutableList.of(requestText)));
-		// Due to a bug: requests to Vision API containing large images fail when GZipped.
-		annotateText.setDisableGZipContent(true);
-
-		BatchAnnotateImagesResponse batchResponseText = annotateText.execute();
-		assert batchResponseText.getResponses().size() == 1;
-		AnnotateImageResponse responseText = batchResponseText.getResponses().get(0);
-		if (responseText.getTextAnnotations() != null) {
-			for(EntityAnnotation annotation : responseText.getTextAnnotations()) {
+		if (response.getTextAnnotations() != null) {
+			for(EntityAnnotation annotation : response.getTextAnnotations()) {
 				System.out.println(annotation.toString());
 			}
 		} else {

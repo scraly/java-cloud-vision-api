@@ -62,9 +62,9 @@ import com.google.common.collect.ImmutableList;
  */
 public class GoogleTest {
 	//TODO change your home
-	private static final String TMP_REPOSITORY = "tmp/";
+	private static final String TMP_REPOSITORY = "/home/toto/tmp/";
 	//TODO remove your token.properties file if you want to ask a new token to Google with new rigts/ACL
-	private static final String TMP_TOKEN_PROPERTIES = "tmp/token.properties";
+	private static final String TMP_TOKEN_PROPERTIES = TMP_REPOSITORY + "token.properties";
 
 	private static final String TABLE_ID = "table_id";
     	private static final String DATASET_ID = "dataset_id";
@@ -150,11 +150,13 @@ public class GoogleTest {
 				.setType("LABEL_DETECTION")
 				.setMaxResults(MAX_LABELS));
 		features.add(new Feature()
-				.setType("SAFE_SEARCH_DETECTION")
-				.setMaxResults(MAX_LABELS));
+				.setType("SAFE_SEARCH_DETECTION"));
 		features.add(new Feature()
 				.setType("TEXT_DETECTION")
-				.setMaxResults(MAX_LABELS));
+				.setMaxResults(MAX_TEXTS));
+		features.add(new Feature()
+				.setType("FACE_DETECTION")
+				.setMaxResults(MAX_FACES));
 
 		AnnotateImageRequest request = new AnnotateImageRequest()
 				//				.setImage(new Image().encodeContent(data))
@@ -177,21 +179,40 @@ public class GoogleTest {
 							: "Unknown error getting image annotations");
 		}
 
-		System.out.println("- LABEL DETECTION -");
-		for(EntityAnnotation annotation : response.getLabelAnnotations()) {
-			System.out.println(annotation.toString());
+		if(response.getLabelAnnotations() != null) {
+			System.out.println("- LABEL DETECTION -");
+			for(EntityAnnotation annotation : response.getLabelAnnotations()) {
+				System.out.println(annotation.toString());
+			}
 		}
 
-		System.out.println("- SAFE SEARCH DETECTION -");
-		System.out.println(response.getSafeSearchAnnotation().toString());
+		if(response.getSafeSearchAnnotation() != null) {
+			System.out.println("- SAFE SEARCH DETECTION -");
+			System.out.println(response.getSafeSearchAnnotation().toString());
+		}
 
 		System.out.println("- TEXT DETECTION -");
 		if (response.getTextAnnotations() != null) {
 			for(EntityAnnotation annotation : response.getTextAnnotations()) {
 				System.out.println(annotation.toString());
+				System.out.println("description: " + annotation.getDescription());
 			}
 		} else {
 			System.out.println("L'image ne comporte pas de texte !");
+		}
+
+		if(response.getFaceAnnotations() != null) {
+			System.out.println("- FACE DETECTION -");
+			for(FaceAnnotation annotation : response.getFaceAnnotations()) {
+				System.out.println(annotation.toString());
+
+				System.out.printf("anger: %s\njoy: %s\nsurprise: %s\nposition: %s",
+						annotation.getAngerLikelihood(),
+						annotation.getJoyLikelihood(),
+						annotation.getSurpriseLikelihood(),
+						annotation.getBoundingPoly());
+				System.out.println("\n");
+			}
 		}
 
 	}

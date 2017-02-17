@@ -1,4 +1,5 @@
 package com.vachea.product.moderation.google.test;
+
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
@@ -50,21 +51,21 @@ import com.google.common.collect.ImmutableList;
  * https://codelabs.developers.google.com/codelabs/cloud-vision-intro/index.html
  * 
  * Type:
- * TYPE_UNSPECIFIED 	Unspecified feature type.
+ * TYPE_UNSPECIFIED 		Unspecified feature type.
  * FACE_DETECTION 		Run face detection.
- * LANDMARK_DETECTION 	Run landmark detection.
+ * LANDMARK_DETECTION 		Run landmark detection.
  * LOGO_DETECTION 		Run logo detection.
  * LABEL_DETECTION 		Run label detection.
  * TEXT_DETECTION 		Run OCR.
  * SAFE_SEARCH_DETECTION 	precedence when both DOCUMENT_TEXT_DETECTION and TEXT_DETECTION are present. Run computer vision models to compute image safe-search properties.
- * IMAGE_PROPERTIES 	Compute a set of image properties, such as the image's dominant colors.
+ * IMAGE_PROPERTIES 		Compute a set of image properties, such as the image's dominant colors.
  * 
  */
 public class GoogleTest {
 	//TODO change your home
-	private static final String TMP_REPOSITORY = "/home/vachea/tmp/";
+	private static final String TMP_REPOSITORY = "tmp/";
 	//TODO remove your token.properties file if you want to ask a new token to Google with new rigts/ACL
-	private static final String TMP_TOKEN_PROPERTIES = "/home/vachea/tmp/token.properties";
+	private static final String TMP_TOKEN_PROPERTIES = "tmp/token.properties";
 
 	private static final String TABLE_ID = "table_id";
     	private static final String DATASET_ID = "dataset_id";

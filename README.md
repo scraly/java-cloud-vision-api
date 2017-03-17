@@ -35,4 +35,14 @@ The credentials you created allow your application to authenticate with Google C
     Click on Cloud Vision API.
     Click Enable API.
 
-
+### Commande Line (CLI)
+The gcloud beta ml vision command group is now available. These command allow you to analyze images with Google Cloud Vision:
+* gcloud beta ml vision detect-documents
+* gcloud beta ml vision detect-faces
+* gcloud beta ml vision detect-image-properties
+* gcloud beta ml vision detect-labels
+* gcloud beta ml vision detect-landmarks
+* gcloud beta ml vision detect-logos
+* gcloud beta ml vision detect-safe-search
+* gcloud beta ml vision detect-text
+* gcloud beta ml vision detect-web

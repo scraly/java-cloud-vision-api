@@ -37,6 +37,7 @@ The credentials you created allow your application to authenticate with Google C
 
 ### Execute Java Class
 In order to interact with and test Google Cloud Vision APi, you just need to run GoogleTest Java class.
+
 `java -cp . GoogleTest`
 
 ### Command Line (CLI)

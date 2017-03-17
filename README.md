@@ -35,7 +35,11 @@ The credentials you created allow your application to authenticate with Google C
     Click on Cloud Vision API.
     Click Enable API.
 
-### Commande Line (CLI)
+### Execute Java Class
+In order to interact with and test Google Cloud Vision APi, you just need to run GoogleTest Java class.
+`java -cp . GoogleTest`
+
+### Command Line (CLI)
 The [gcloud beta ml](https://cloud.google.com/sdk/gcloud/reference/beta/ml/) vision command group is now available. These command allow you to analyze images with Google Cloud Vision:
 ```
 gcloud beta ml vision detect-documents

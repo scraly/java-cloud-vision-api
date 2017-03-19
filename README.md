@@ -2,13 +2,13 @@
 
 ## General
 
-Google Cloud Vision API enables developers to understand the content of an image by encapsulating powerful machine learning models in an easy to use REST API. It quickly classifies images into thousands of categories (e.g., "sailboat", "lion", "Eiffel Tower"), detects individual objects and faces within images, and finds and reads printed words contained within images. You can build metadata on your image catalog, moderate offensive content, or enable new marketing scenarios through image sentiment analysis. Analyze images uploaded in the request or integrate with your image storage on Google Cloud Storage. 
+Google [Cloud Vision API](https://cloud.google.com/vision/) enables developers to understand the content of an image by encapsulating powerful machine learning models in an easy to use REST API. It quickly classifies images into thousands of categories (e.g., "sailboat", "lion", "Eiffel Tower"), detects individual objects and faces within images, and finds and reads printed words contained within images. You can build metadata on your image catalog, moderate offensive content, or enable new marketing scenarios through image sentiment analysis. Analyze images uploaded in the request or integrate with your image storage on Google Cloud Storage. 
 
 ## Pre-requisit
 
 ### Create Google Account
 
-If you don't already have a Google Account (Gmail or Google Apps), you must create one. Sign-in to Google Cloud Platform console (console.cloud.google.com) and create a new project.
+If you don't already have a Google Account (Gmail or Google Apps), you must create one. Sign-in to Google Cloud Platform console ([console.cloud.google.com](console.cloud.google.com)) and create a new project.
 
 Remember the project ID, a unique name across all Google Cloud projects (the name above has already been taken and will not work for you, sorry!). It will be referred to later in this codelab as PROJECT_ID.
 
@@ -35,14 +35,21 @@ The credentials you created allow your application to authenticate with Google C
     Click on Cloud Vision API.
     Click Enable API.
 
-### Commande Line (CLI)
-The gcloud beta ml vision command group is now available. These command allow you to analyze images with Google Cloud Vision:
-* gcloud beta ml vision detect-documents
-* gcloud beta ml vision detect-faces
-* gcloud beta ml vision detect-image-properties
-* gcloud beta ml vision detect-labels
-* gcloud beta ml vision detect-landmarks
-* gcloud beta ml vision detect-logos
-* gcloud beta ml vision detect-safe-search
-* gcloud beta ml vision detect-text
-* gcloud beta ml vision detect-web
+### Execute Java Class
+In order to interact with and test Google Cloud Vision APi, you just need to run GoogleTest Java class.
+
+`java -cp . GoogleTest`
+
+### Command Line (CLI)
+The [gcloud beta ml](https://cloud.google.com/sdk/gcloud/reference/beta/ml/) vision command group is now available. These command allow you to analyze images with Google Cloud Vision:
+```
+gcloud beta ml vision detect-documents
+gcloud beta ml vision detect-faces
+gcloud beta ml vision detect-image-properties
+gcloud beta ml vision detect-labels
+gcloud beta ml vision detect-landmarks
+gcloud beta ml vision detect-logos
+gcloud beta ml vision detect-safe-search
+gcloud beta ml vision detect-text
+gcloud beta ml vision detect-web
+```

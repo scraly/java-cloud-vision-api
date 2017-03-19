@@ -58,7 +58,9 @@ import com.google.common.collect.ImmutableList;
  * TEXT_DETECTION 		Run OCR.
  * SAFE_SEARCH_DETECTION 	precedence when both DOCUMENT_TEXT_DETECTION and TEXT_DETECTION are present. Run computer vision models to compute image safe-search properties.
  * IMAGE_PROPERTIES 		Compute a set of image properties, such as the image's dominant colors.
- * 
+ * WEB_DETECTION		Detect web reference to an image
+ * CROP_HINTS			Give x and y in order to do an optimal crop
+ * DOCUMENT_TEXT_DETECTION	Run high level OCR for block of text 
  */
 public class GoogleTest {
 	//TODO change your home
@@ -163,6 +165,12 @@ public class GoogleTest {
 				.setType("LOGO_DETECTION"));
 		features.add(new Feature()
 				.setType("IMAGE_PROPERTIES"));
+		features.add(new Feature()
+				.setType("WEB_DETECTION"));
+		features.add(new Feature()
+				.setType("CROP_HINTS"));
+		features.add(new Feature()
+				.setType("DOCUMENT_TEXT_DETECTION"));
 
 		AnnotateImageRequest request = new AnnotateImageRequest()
 				//				.setImage(new Image().encodeContent(data))
@@ -247,6 +255,46 @@ public class GoogleTest {
 						color.getColor().getGreen(),
 						color.getColor().getBlue());
 			}
+		}
+
+		if(response.getWebDetection() != null) {
+			System.out.println("- WEB DETECTION -");
+			WebDetection annotation = response.getWebDetection();
+			for(WebEntity entity : annotation.getWebEntities()) {
+				System.out.println(entity.toString());
+			}
+			
+		    System.out.println("Pages with matching images:");
+		    for (WebPage page : annotation.getPagesWithMatchingImages()) {
+		    	System.out.println(page.getUrl() + " : " + page.getScore());
+		    }
+		    System.out.println("Pages with partially matching images:");
+		    for (WebImage image : annotation.getPartialMatchingImages()) {
+		      System.out.println(image.getUrl() + " : " + image.getScore());
+		    }
+		    System.out.println("Pages with fully matching images:");
+		    for (WebImage image : annotation.getFullMatchingImages()) {
+		      System.out.println(image.getUrl() + " : " + image.getScore());
+		    }
+		}
+		
+		if (response.getTextAnnotations() != null) {
+			System.out.println("- DOCUMENT TEXT DETECTION -");
+			for(EntityAnnotation annotation : response.getTextAnnotations()) {
+				System.out.println(annotation.toString());
+				System.out.println("description: " + annotation.getDescription());
+			}
+		} else {
+			System.out.println("L'image ne comporte pas de texte !");
+		}
+		
+		if(response.getCropHintsAnnotation() != null) {
+			System.out.println("- CROP HINTS -");
+			CropHintsAnnotation annotation = response.getCropHintsAnnotation();
+		    for (CropHint hint : annotation.getCropHints()) {
+		      System.out.println(hint.getBoundingPoly() 
+		    		  + ", confidence: " + java.lang.Math.round(hint.getConfidence() * 100) + "%");
+		    }
 		}
 
 	}
